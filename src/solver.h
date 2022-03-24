@@ -7,6 +7,7 @@
 #include "node.h"
 #include "mapper.h"
 #include "pjs.h"
+#include "bra.h"
 
 #include <unordered_map>
 #include <iostream>
