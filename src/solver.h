@@ -73,6 +73,8 @@ void set_savings (Problem& problem, float alpha) {
 
 
 
+
+
 Solution* heuristic (Problem& problem, float beta) {
 
     // execute the mapper with eventually a certain biased randomisation
@@ -97,6 +99,35 @@ Solution* heuristic (Problem& problem, float beta) {
     return new Solution (mapping, sols, revenue, cost);
 
 }
+
+
+
+
+float optimize_alpha ( Problem& problem )
+{
+    float bestalpha = 0.0f;
+    int bestrevenue = 0;
+
+    for (float alpha = 0.0; alpha < 1.1; alpha += 0.1) {
+        cout << alpha << "\n";
+
+        set_savings(problem, alpha);
+
+        Solution* solution = heuristic(problem, GREEDY_BETA);
+
+        if (solution->revenue > bestrevenue){
+            bestalpha = alpha;
+            bestrevenue = solution->revenue;
+        }
+
+        delete solution;
+
+    }
+
+    return bestalpha;
+}
+
+
 
 
 
