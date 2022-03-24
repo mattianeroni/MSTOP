@@ -32,7 +32,7 @@ struct Solution {
     int revenue;
     float cost;
 
-    Solution(Mapping mapping, vector<PJS_Solution*> pjs_sols, int revenue, float cost){
+    Solution(Mapping mapping, vector<PJS_Solution*>& pjs_sols, int revenue, float cost){
         this->mapping = mapping;
         this->pjs_sols = pjs_sols;
         this->revenue = revenue;
@@ -129,11 +129,6 @@ Solution* metaheuristic ( Problem& problem, float minbeta, float maxbeta, int ma
     return best;
 
 }
-
-
-
-
-
 
 
 

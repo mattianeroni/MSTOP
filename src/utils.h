@@ -27,8 +27,8 @@ class Problem {
   Node* depot;
   vector<Edge*> edges;
 
-  Problem (int n_nodes, int n_vehicles, float Tmax, vector<vector<float>> dists,
-          vector<Node*> sources, vector<Node*> nodes, Node* depot, vector<Edge*> edges){
+  Problem (int n_nodes, int n_vehicles, float Tmax, vector<vector<float>>& dists,
+          vector<Node*>& sources, vector<Node*>& nodes, Node* depot, vector<Edge*>& edges){
       this->n_nodes = n_nodes;
 	    this->n_vehicles = n_vehicles;
       this->Tmax = Tmax;

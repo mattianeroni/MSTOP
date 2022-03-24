@@ -30,7 +30,7 @@ struct PJS_Solution {
     int revenue;
     float cost;
 
-    PJS_Solution(vector<Route*> routes, int revenue, float cost) {
+    PJS_Solution(vector<Route*>& routes, int revenue, float cost) {
         this->routes = routes;
         this->revenue = revenue;
         this->cost = cost;

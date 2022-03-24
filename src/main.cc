@@ -37,7 +37,7 @@ int main ()
 
 
 
-  /*
+  
   start = high_resolution_clock::now();
 
   solution = metaheuristic(problem, 0.1, 0.3, 1000);
@@ -45,7 +45,7 @@ int main ()
   stop = high_resolution_clock::now();
 
   cout << solution->cost << "  " << solution->revenue << "  " << duration_cast<milliseconds>(stop - start).count() << "\n";
-  */
+  
 
   delete solution;
   
