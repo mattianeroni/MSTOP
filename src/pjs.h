@@ -123,7 +123,6 @@ PJS_Solution*   PJS (Problem& problem, Node* source, Node* depot, const unordere
 
     }
 
-    
 
   
     // if the number of routes is higher than the number of vehicles, only the bests are kept
