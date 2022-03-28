@@ -271,4 +271,38 @@ Solution* intensive_metaheuristic ( Problem& problem, float minbeta, float maxbe
 
 
 
+
+
+
+PJS_Solution* MultiStartPJS ( Problem& problem, Node* source, Node* depot, const unordered_map<int,Node*>& nodes, 
+                              float minbeta, float maxbeta, int maxiter)
+{
+
+    // random engine
+    std::mt19937 random_engine(std::random_device{}());
+    std::uniform_real_distribution<float> randombeta (minbeta, maxbeta);
+
+    PJS_Solution* best = PJS(problem, source, problem.depot, nodes, GREEDY_BETA);
+
+            
+    for (int i = 0; i < maxiter; i++ )
+    {
+
+        // generate a random beta 
+        float beta = randombeta(random_engine);
+
+        // generate new solution
+        PJS_Solution* newsol = PJS(problem, source, problem.depot, nodes, beta);
+
+        if (newsol->revenue > best->revenue)
+            best = newsol;
+
+    }
+
+    return best;
+
+}
+
+
+
 #endif

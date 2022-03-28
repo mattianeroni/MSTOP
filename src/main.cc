@@ -1,5 +1,6 @@
 #include <iostream>
 #include <chrono>
+#include <fstream>
 #include <string>
 
 #include "utils.h"
@@ -7,7 +8,9 @@
 
 
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::vector;
 using namespace std::chrono;
 
 
@@ -76,108 +79,165 @@ int main ()
   };
 
 
-  cout << "Problem, P1, P2, P3, HeurC, HeurR, HeurT, RTMetaC, RTMetaR, RTMetaT, IntMetaC, IntMetaR, IntMetaT, SepHeurC, SepHeurR, SepHeurT, SepMetaC, SepMetaR, SepMetaT,\n";
-
-
-
-  for (vector<string> filename : filenames) 
-  {
-    
-    // read multi source problem
-    Problem problem = read_file("../tests/multi/" + filename[0]);
-
-
-    // plot problems names
-    cout << filename[0] << ", ";
-    for (int i = 1; i < 4; i++)
-      cout << filename[i] << ", ";
-
-
-
-    // optimise alpha and set problems savings 
-    float alpha = optimize_alpha(problem);
-    set_savings(problem, alpha);
-
-
-
-
-    // heuristic
-    
-    auto start = high_resolution_clock::now();
-
-    auto solution = heuristic(problem, GREEDY_BETA);
-
-    auto stop = high_resolution_clock::now();
-
-    cout << (int)solution->cost << ", " << solution->revenue << ", " << duration_cast<milliseconds>(stop - start).count() << ", ";
-    
-
-
-
-    // metaheuristic
-    
-    start = high_resolution_clock::now();
-
-    solution = metaheuristic(problem, 0.1, 0.3, 1000);
-
-    stop = high_resolution_clock::now();
-
-    cout << (int)solution->cost << ", " << solution->revenue << ", " << duration_cast<milliseconds>(stop - start).count() << ", ";
-
-
-
-
-    // intensive search metaheuristic
-    
-    start = high_resolution_clock::now();
-
-    solution = intensive_metaheuristic(problem, 0.1, 0.3, 1000, 5);
+  // clean the file 
+  ofstream toclean ("results.txt");
+  toclean << "";
+  toclean.close();
   
-    stop = high_resolution_clock::now();
+  // header
+  ofstream outfile ("results.txt", std::ios_base::app);
+  if (outfile.is_open()) {
+    outfile << "Problem, P1, P2, P3, HeurC, HeurR, HeurT, RTMetaC, RTMetaR, RTMetaT, IntMetaC, IntMetaR, IntMetaT, SepHeurC, SepHeurR, SepHeurT, SepMetaC, SepMetaR, SepMetaT,\n";
+    outfile.close();
+  } 
 
-    cout << (int)solution->cost << ", " << solution->revenue << ", " << duration_cast<milliseconds>(stop - start).count() << ", ";
+
+  for (vector<string> filename : filenames) {
+    
+    ofstream outfile ("results.txt", std::ios_base::app);
+
+    if (outfile.is_open()) {
+      // read multi source problem
+      Problem problem = read_file("../tests/multi/" + filename[0]);
+
+      cout << filename[0] << endl; 
+
+
+      // plot problems names
+      outfile << filename[0] << ", ";
+      for (int i = 1; i < 4; i++)
+        outfile << filename[i] << ", ";
 
 
 
-    // separated heuristic approaches
-    float total_cost = 0.0f;
-    int total_revenue = 0;
-    long long total_time = 0LL;
+      // optimise alpha and set problems savings 
+      float alpha = optimize_alpha(problem);
+      set_savings(problem, alpha);
 
-    for (int i = 1; i < 4; i++) {
 
-      if (filename[i] == "")
-        continue;
 
-      Problem ss_problem = read_single_source("../tests/single/" + filename[i]);
-      ss_problem.Tmax = problem.Tmax;
 
-      unordered_map<int,Node*> nodes;
+      // heuristic
+      
+      auto start = high_resolution_clock::now();
 
-      for (Node* n : problem.nodes) {
-        nodes[n->id] = n;
-      }
+      auto solution = heuristic(problem, GREEDY_BETA);
 
+      auto stop = high_resolution_clock::now();
+
+      outfile << (int)solution->cost << ", " << solution->revenue << ", " << duration_cast<milliseconds>(stop - start).count() << ", ";
+      
+
+
+
+      // metaheuristic
+      
       start = high_resolution_clock::now();
 
-      PJS_Solution* pjs_solution = PJS(problem, problem.sources[0], problem.depot, nodes, GREEDY_BETA);
+      solution = metaheuristic(problem, 0.1, 0.3, 1000);
 
       stop = high_resolution_clock::now();
 
-      total_cost += pjs_solution->cost;
-      total_revenue += pjs_solution->revenue;
-      total_time += duration_cast<milliseconds>(stop - start).count();
+      outfile << (int)solution->cost << ", " << solution->revenue << ", " << duration_cast<milliseconds>(stop - start).count() << ", ";
+
+
+
+
+      // intensive search metaheuristic
+      
+      start = high_resolution_clock::now();
+
+      solution = intensive_metaheuristic(problem, 0.1, 0.3, 1000, 5);
+    
+      stop = high_resolution_clock::now();
+
+      outfile << (int)solution->cost << ", " << solution->revenue << ", " << duration_cast<milliseconds>(stop - start).count() << ", ";
+
+
+
+      // separated heuristic approaches
+      float total_cost = 0.0f;
+      int total_revenue = 0;
+      long long total_time = 0LL;
+
+      for (int i = 1; i < 4; i++) {
+
+        if (filename[i] == "")
+          continue;
+
+        Problem ss_problem = read_single_source("../tests/single/" + filename[i]);
+        ss_problem.Tmax = problem.Tmax;
+
+        unordered_map<int,Node*> nodes;
+
+        for (Node* n : problem.nodes) {
+          nodes[n->id] = n;
+        }
+
+        start = high_resolution_clock::now();
+
+        PJS_Solution* pjs_solution = PJS(problem, problem.sources[0], problem.depot, nodes, GREEDY_BETA);
+
+        stop = high_resolution_clock::now();
+
+        total_cost += pjs_solution->cost;
+        total_revenue += pjs_solution->revenue;
+        total_time += duration_cast<milliseconds>(stop - start).count();
+
+      }
+
+      outfile << (int)total_cost << ", " << total_revenue << ", " << total_time << ", ";
+
+
+
+
+
+      // separated heuristic approaches
+      total_cost = 0.0f;
+      total_revenue = 0;
+      total_time = 0LL;
+
+      for (int i = 1; i < 4; i++) {
+
+        if (filename[i] == "")
+          continue;
+
+        Problem ss_problem = read_single_source("../tests/single/" + filename[i]);
+        ss_problem.Tmax = problem.Tmax;
+
+        unordered_map<int,Node*> nodes;
+
+        for (Node* n : problem.nodes) {
+          nodes[n->id] = n;
+        }
+
+        start = high_resolution_clock::now();
+
+        PJS_Solution* pjs_solution = MultiStartPJS(problem, problem.sources[0], problem.depot, nodes, 0.1, 0.3, 1000);
+
+        stop = high_resolution_clock::now();
+
+        total_cost += pjs_solution->cost;
+        total_revenue += pjs_solution->revenue;
+        total_time += duration_cast<milliseconds>(stop - start).count();
+
+      }
+
+      outfile << (int)total_cost << ", " << total_revenue << ", " << total_time << ", ";
+
+
+      outfile << "\n";
+
+      delete solution;
+
+      outfile.close();
 
     }
 
-    cout << (int)total_cost << ", " << total_revenue << ", " << total_time << ", ";
-
-
-    cout << "\n";
-
-    delete solution;
-
   }
+
+    
+  
   
   
   return 0;
