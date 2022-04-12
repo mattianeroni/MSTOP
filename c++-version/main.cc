@@ -83,7 +83,7 @@ int main ()
   ofstream toclean ("results.txt");
   toclean << "";
   toclean.close();
-  
+
   // header
   ofstream outfile ("results.txt", std::ios_base::app);
   if (outfile.is_open()) {

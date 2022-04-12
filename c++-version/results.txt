@@ -1,0 +1,5 @@
+Problem, P1, P2, P3, HeurC, HeurR, HeurT, RTMetaC, RTMetaR, RTMetaT, IntMetaC, IntMetaR, IntMetaT, SepHeurC, SepHeurR, SepHeurT, SepMetaC, SepMetaR, SepMetaT,
+g12_4_k.txt, p1.4.k.txt, p2.4.k.txt, , 91, 310, 1, 102, 325, 982, 102, 325, 4552, 106, 450, 9, 109, 460, 3676, 
+g26_2_k.txt, p2.2.k.txt, p6.2.k.txt, , 128, 1321, 3, 128, 1368, 2793, 128, 1419, 14280, 129, 1704, 24, 129, 1747, 15581, 
+g57_2_n.txt, p5.2.n.txt, p7.2.n.txt, , 470, 2279, 18, 483, 2395, 18693, 511, 2533, 102924, 549, 3758, 214, 553, 3961, 196195, 
+g45_2_n.txt, p4.2.n.txt, p5.2.n.txt, , 294, 2395, 18, 310, 2439, 18165, 311, 2500, 101169, 344, 2278, 186, 340, 2569, 202099, 
