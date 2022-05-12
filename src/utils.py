@@ -349,19 +349,3 @@ def merge (*problems, name="pmulti.txt", non_negative=False):
 
 
 
-
-
-if __name__ == '__main__':
-    problem1 = read_single_source(path_to_benchmarks_single + "p1.2.a.txt")
-    problem2 = read_single_source(path_to_benchmarks_single + "p2.2.a.txt")
-
-    #problem3 = read_single_source(path_to_benchmarks_single + "p3.2.a.txt")
-    problem1.plot()
-    problem2.plot()
-
-    p = merge(problem1, problem2, name="test.txt")
-    p.plot()
-    p.export("./")
-
-    p = read_multi_source("test.txt")
-    p.plot()
