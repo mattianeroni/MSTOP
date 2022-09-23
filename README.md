@@ -11,4 +11,4 @@ Authors:
 -	Elnaz Ghorbani
 -	Mattia Neroni
 
-Code's corresponding author: Mattia Neroni (mneroni@uoc.edu)
+Code's corresponding author: Mattia Neroni (mattianeroni@yahoo.it)
